@@ -16,6 +16,12 @@
   padding: 0 15px;
   font-weight: bold;
 }
+.cellEnd {
+  text-align: left;
+  border-right: 1px solid #eee;
+  padding: 0 15px;
+  font-weight: bold;
+}
 
 .cell sub {
   display: block;
@@ -23,3 +29,9 @@
   color: #999;
   margin-bottom: 5px;
 }
+/* .SingleApplication_cell__h322Q {
+  text-align: left;
+  border-right: 0px solid #eee !important;
+  padding: 0 15px;
+  font-weight: bold;
+} */

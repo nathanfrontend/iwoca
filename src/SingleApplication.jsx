@@ -3,23 +3,30 @@ import styles from "./SingleApplication.module.css";
 import Moment from "moment";
 import NumberFormat from "react-number-format";
 import { motion, AnimatePresence } from "framer-motion";
-import UploadDialog from "./ui/Button/UploadDialog";
+import ApplicationDialog from "./components/Dialogs/ApplicationDialog";
 import { getApplicationInfo } from "./services/api.js";
 const SingleApplication = ({ application, applicationData }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [rowData, setRowData] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   // useEffect(() => {
   //   setDialogOpen(false);
   // }, []);
-  const handleApplicationRow = (item) => {
+  const handleApplicationRow = async (item) => {
     setDialogOpen(true);
     // seems like the datas the same, realisticaally just making a call to get the contextual data, wouldnt it be more efficient to just use the id of the row/ index and use that to get the rowContext with bracket notation?
-    getApplicationInfo(item.id).then((data) => {
+
+    // image sometimes loads slower than other
+    await getApplicationInfo(item.id).then((data) => {
       setRowData(data);
+
+      setLoading(true);
     });
   };
   const handleDialogClose = (item) => {
     setDialogOpen(false);
+    // setRowData([]);
+    setLoading(false);
   };
   return (
     <>
@@ -39,7 +46,7 @@ const SingleApplication = ({ application, applicationData }) => {
         <div className={styles.cell}>
           <sub>Application Date</sub>
         </div>
-        <div className={styles.cell}>
+        <div className={styles.cellEnd}>
           <sub>Expiry date</sub>
         </div>
       </div>
@@ -60,7 +67,7 @@ const SingleApplication = ({ application, applicationData }) => {
               {application.first_name} {application.last_name}
             </div>
             <div className={styles.cell}>
-              <a href="">{application.email}</a>
+              <a href={application.email}>{application.email}</a>
             </div>
             <div className={styles.cell}>
               {" "}
@@ -76,7 +83,7 @@ const SingleApplication = ({ application, applicationData }) => {
                 "Do MMMM YYYY"
               )}
             </div>
-            <div className={styles.cell}>
+            <div className={styles.cellEnd}>
               {Moment(application.expiry_date.split("T")[0]).format(
                 "Do MMMM YYYY"
               )}
@@ -84,7 +91,13 @@ const SingleApplication = ({ application, applicationData }) => {
           </motion.div>
         ))
       }
-      <UploadDialog dialogOpen={dialogOpen} />
+      {isLoading ? (
+        <ApplicationDialog
+          handleDialogClose={handleDialogClose}
+          rowData={rowData[0]}
+          dialogOpen={dialogOpen}
+        />
+      ) : null}
     </>
   );
 };
