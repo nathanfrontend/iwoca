@@ -13,6 +13,7 @@ const SingleApplication = ({ application, applicationData }) => {
   // }, []);
   const handleApplicationRow = (item) => {
     setDialogOpen(true);
+    // seems like the datas the same, realisticaally just making a call to get the contextual data, wouldnt it be more efficient to just use the id of the row/ index and use that to get the rowContext with bracket notation?
     getApplicationInfo(item.id).then((data) => {
       setRowData(data);
     });
