@@ -9,6 +9,7 @@
   text-align: center;
   white-space: nowrap;
   transition: background-color 0.3s;
+  /* margin-right: 10%; */
 }
 
 .button:focus {
@@ -30,4 +31,11 @@
 
 .button:disabled {
   opacity: 0.5;
+}
+.buttonCenter {
+  margin-left: 50%;
+}
+.pagination {
+  margin-right: 10% !important;
+  justify-content: end !important;
 }
